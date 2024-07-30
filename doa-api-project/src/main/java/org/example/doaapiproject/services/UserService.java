@@ -1,0 +1,46 @@
+package org.example.doaapiproject.services;
+
+import org.example.doaapiproject.models.Login;
+import org.example.doaapiproject.models.User;
+import org.example.doaapiproject.repositories.LoginRepository;
+import org.example.doaapiproject.repositories.UserRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class UserService {
+    private final UserRepository userRepository;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    // create
+    @Transactional
+    public User createUser(User user) {
+        return userRepository.save(user);
+    }
+
+    // find user by id
+    public User findUser(String id) {
+        return userRepository.findById(Integer.parseInt(id)).orElseThrow(() ->
+                new RuntimeException("user not found"));
+    }
+
+    // find user by email
+    public User findUserByEmail(String email) throws RuntimeException{
+        User user = userRepository.findUserByEmail(email);
+        if (user != null) {
+            return user;
+        } else {
+            throw new RuntimeException("user not found");
+        }
+    }
+
+    // delete
+    @Transactional
+    public User deleteUser(String id) {
+        User user = findUser(id);
+        userRepository.deleteById(Integer.parseInt(id));
+        return user;
+    }
+}
