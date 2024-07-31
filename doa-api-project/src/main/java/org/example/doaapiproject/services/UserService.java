@@ -10,13 +10,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    public UserService(UserRepository userRepository) {
+    private final LoginService loginService;
+    public UserService(UserRepository userRepository, LoginService loginService) {
         this.userRepository = userRepository;
+        this.loginService = loginService;
     }
 
     // create
     @Transactional
     public User createUser(User user) {
+        // criar o login
+        // não vamos cadastrar usuários novos, eles já vão estar cadastrados
+        // loginService.createLogin(new Login(user.getEmail(), user.getPassword()));
         return userRepository.save(user);
     }
 

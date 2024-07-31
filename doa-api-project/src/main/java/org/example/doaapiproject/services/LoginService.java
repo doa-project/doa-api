@@ -13,16 +13,24 @@ public class LoginService {
     // create
     @Transactional
     public Login createLogin(Login login) {
-
         return loginRepository.save(login);
     }
 
-    // find user by id
+    // find login by email
     public Login findLogin(String email) {
         return loginRepository.findById(email).orElseThrow(() ->
                 new RuntimeException("login not found"));
     }
 
+    // find login by email and password
+    public Login findLoginByEmailAndPassword(String email, String password) throws RuntimeException{
+        Login login = loginRepository.findLoginByEmailAndPassword(email, password);
+        if (login != null) {
+            return login;
+        } else {
+            throw new RuntimeException("login not found");
+        }
+    }
     // delete
     @Transactional
     public Login deleteLogin(String email) {

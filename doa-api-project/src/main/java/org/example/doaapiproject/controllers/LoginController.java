@@ -2,7 +2,6 @@ package org.example.doaapiproject.controllers;
 
 import jakarta.validation.Valid;
 import org.example.doaapiproject.models.Login;
-import org.example.doaapiproject.models.User;
 import org.example.doaapiproject.services.LoginService;
 import org.example.doaapiproject.services.UserService;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @ControllerAdvice
 @RestController
@@ -37,9 +35,15 @@ public class LoginController {
 
             return new ResponseEntity<>(erros, HttpStatus.BAD_REQUEST);
         } else {
-            loginService.createLogin(login);
-            Object response;
 
+            // verificando o login
+            try {
+                loginService.findLoginByEmailAndPassword(login.getEmail(), login.getPassword());
+            } catch (RuntimeException r) {
+                return new ResponseEntity<>(r.getMessage(), HttpStatus.NOT_FOUND);
+            }
+
+            Object response;
             // verificando se é User
             try {
                 response = userService.findUserByEmail(login.getEmail());;
