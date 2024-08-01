@@ -10,10 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final LoginService loginService;
-    public UserService(UserRepository userRepository, LoginService loginService) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.loginService = loginService;
     }
 
     // create
