@@ -5,6 +5,8 @@ import org.example.doaapiproject.repositories.InstitutionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Base64;
+
 @Service
 public class InstitutionService {
     private final InstitutionRepository institutionRepository;

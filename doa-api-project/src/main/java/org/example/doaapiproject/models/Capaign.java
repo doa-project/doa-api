@@ -19,12 +19,12 @@ public class Capaign {
     @Size(max = 50, message = "the number of characters in the name of the institution must be between 0 and 50")
     private String institutionName;
     @NotNull(message = "the photo of the institution cannot be null")
-    private Base64 institutionPhoto;
+    private String institutionPhoto;
     @NotNull(message = "description cannot be null")
     @Size(max = 500, message = "the number of characters in the description must be between 0 and 500")
     private String description;
     @NotNull(message = "images cannot be null")
-    private List<Base64> images;
+    private List<String> images;
     @Pattern(regexp = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$",
             message = "Invalid date format. The expected format is dd/MM/yyyy")
     private String endDate;
@@ -35,7 +35,7 @@ public class Capaign {
     // construtores
     public Capaign(){}
 
-    public Capaign(Integer id, String institutionName, Base64 institutionPhoto, String description, List<Base64> images, String endDate, String local) {
+    public Capaign(Integer id, String institutionName, String institutionPhoto, String description, List<String> images, String endDate, String local) {
         this.id = id;
         this.institutionName = institutionName;
         this.institutionPhoto = institutionPhoto;
@@ -63,11 +63,11 @@ public class Capaign {
         this.institutionName = institutionName;
     }
 
-    public Base64 getInstitutionPhoto() {
+    public String getInstitutionPhoto() {
         return institutionPhoto;
     }
 
-    public void setInstitutionPhoto(Base64 institutionPhoto) {
+    public void setInstitutionPhoto(String institutionPhoto) {
         this.institutionPhoto = institutionPhoto;
     }
 
@@ -79,11 +79,11 @@ public class Capaign {
         this.description = description;
     }
 
-    public List<Base64> getImages() {
+    public List<String> getImages() {
         return images;
     }
 
-    public void setImages(List<Base64> images) {
+    public void setImages(List<String> images) {
         this.images = images;
     }
 

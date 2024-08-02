@@ -28,13 +28,14 @@ public class Institution {
     @Pattern(regexp = "^(?:\\+55\\s?)?(?:\\(\\d{2}\\)\\s?|\\d{2}\\s?)?\\d{5}-?\\d{4}$",
             message = "Invalid phone number format")
     private String phone;
+    // converter para Base64
     @NotNull(message = "photo cannot be null")
-    private Base64 photo;
+    private String photo;
 
     // construtores
     public Institution(){}
 
-    public Institution(Integer id, String name, String email, String description, String local, String phone, Base64 photo) {
+    public Institution(Integer id, String name, String email, String description, String local, String phone, String photo) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -94,11 +95,11 @@ public class Institution {
         this.phone = phone;
     }
 
-    public Base64 getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(Base64 photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 
