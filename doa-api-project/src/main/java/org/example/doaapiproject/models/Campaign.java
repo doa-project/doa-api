@@ -7,11 +7,10 @@ import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Base64;
 import java.util.List;
 
 @Document("campaign")
-public class Capaign {
+public class Campaign {
     @Id
     @Min(value = 0, message = "the id must be bigger then or equal to zero")
     private Integer id;
@@ -33,9 +32,9 @@ public class Capaign {
     private String local;
 
     // construtores
-    public Capaign(){}
+    public Campaign(){}
 
-    public Capaign(Integer id, String institutionName, String institutionPhoto, String description, List<String> images, String endDate, String local) {
+    public Campaign(Integer id, String institutionName, String institutionPhoto, String description, List<String> images, String endDate, String local) {
         this.id = id;
         this.institutionName = institutionName;
         this.institutionPhoto = institutionPhoto;

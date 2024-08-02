@@ -4,7 +4,6 @@ import jakarta.validation.constraints.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Base64;
 
 @Document("institution")
 public class Institution {
