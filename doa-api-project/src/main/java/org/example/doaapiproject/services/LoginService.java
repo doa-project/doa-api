@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class LoginService {
     private final LoginRepository loginRepository;
-    public LoginService(LoginRepository loginRepository) {this.loginRepository = loginRepository;}
+    public LoginService(LoginRepository loginRepository) {
+        this.loginRepository = loginRepository;
+    }
 
     // create
     @Transactional

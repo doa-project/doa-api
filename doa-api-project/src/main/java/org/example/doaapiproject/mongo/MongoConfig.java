@@ -1,4 +1,4 @@
-package org.example.doaapiproject;
+package org.example.doaapiproject.mongo;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;

@@ -14,10 +14,11 @@ public class Campaign {
     @Id
     @Min(value = 0, message = "the id must be bigger then or equal to zero")
     private Integer id;
-    @NotNull(message = "name cannot be null")
+    @NotNull(message = "the id of the institution cannot be null")
+    @Size(message = "the id of the institution must be bigger then or equal to zero")
+    private String institutionId;
     @Size(max = 50, message = "the number of characters in the name of the institution must be between 0 and 50")
     private String institutionName;
-    @NotNull(message = "the photo of the institution cannot be null")
     private String institutionPhoto;
     @NotNull(message = "description cannot be null")
     @Size(max = 500, message = "the number of characters in the description must be between 0 and 500")
@@ -34,8 +35,9 @@ public class Campaign {
     // construtores
     public Campaign(){}
 
-    public Campaign(Integer id, String institutionName, String institutionPhoto, String description, List<String> images, String endDate, String local) {
+    public Campaign(Integer id, String institutionId, String institutionName, String institutionPhoto, String description, List<String> images, String endDate, String local) {
         this.id = id;
+        this.institutionId = institutionId;
         this.institutionName = institutionName;
         this.institutionPhoto = institutionPhoto;
         this.description = description;
@@ -102,9 +104,18 @@ public class Campaign {
         this.local = local;
     }
 
+    public String getInstitutionId() {
+        return institutionId;
+    }
+
+    public void setInstitutionId(String institutionId) {
+        this.institutionId = institutionId;
+    }
+
     // toString
     public String toString() {
         return "Campaign{\n id=" + this.id +
+                "\n institutionId=" + this.institutionId +
                 "\n ,institutionName='" + this.institutionName +
                 "'\n ,institutionPhoto='" + this.institutionPhoto +
                 "'\n ,description='" + this.description +

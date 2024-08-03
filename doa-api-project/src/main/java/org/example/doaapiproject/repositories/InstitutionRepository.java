@@ -6,5 +6,4 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface InstitutionRepository extends MongoRepository<Institution, Integer> {
-    Institution findInstitutionByNameIgnoreCase(String name);
 }

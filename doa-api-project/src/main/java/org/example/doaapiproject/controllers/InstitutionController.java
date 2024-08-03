@@ -69,7 +69,7 @@ public class InstitutionController {
             Institution institutionDeleted = institutionService.deleteInstitution(id);
             return ResponseEntity.status(HttpStatus.OK).body(institutionDeleted);
         } catch (RuntimeException r){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(r.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(r.getMessage());
         }
     }
 }

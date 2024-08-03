@@ -1,8 +1,7 @@
 package org.example.doaapiproject.services;
 
-import org.example.doaapiproject.models.Login;
 import org.example.doaapiproject.models.User;
-import org.example.doaapiproject.repositories.LoginRepository;
+import org.example.doaapiproject.repositories.UserIdRepository;
 import org.example.doaapiproject.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,8 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    public UserService(UserRepository userRepository) {
+    private final UserIdRepository userIdRepository;
+    public UserService(UserRepository userRepository, UserIdRepository userIdRepository) {
         this.userRepository = userRepository;
+        this.userIdRepository = userIdRepository;
     }
 
     // create
@@ -20,6 +21,7 @@ public class UserService {
         // criar o login
         // não vamos cadastrar usuários novos, eles já vão estar cadastrados
         // loginService.createLogin(new Login(user.getEmail(), user.getPassword()));
+        user.setId(userIdRepository.findUserId());
         return userRepository.save(user);
     }
 
