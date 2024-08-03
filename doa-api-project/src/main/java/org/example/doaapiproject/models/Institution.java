@@ -8,8 +8,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("institution")
 public class Institution {
     @Id
-    @Min(value = 0, message = "the id must be bigger then or equal to zero")
-    private Integer id;
+    private String id;
+    @Size(message = "the id must be bigger then or equal to zero")
+    private Integer institutionId;
     @NotNull(message = "name cannot be null")
     @Size(max = 50, message = "the number of characters in the name must be between 0 and 50")
     private String name;
@@ -34,8 +35,9 @@ public class Institution {
     // construtores
     public Institution(){}
 
-    public Institution(Integer id, String name, String email, String description, String local, String phone, String photo) {
+    public Institution(String id, Integer institutionId, String name, String email, String description, String local, String phone, String photo) {
         this.id = id;
+        this.institutionId = institutionId;
         this.name = name;
         this.email = email;
         this.description = description;
@@ -46,12 +48,20 @@ public class Institution {
 
     // getters e setters
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public Integer getInstitutionId() {
+        return institutionId;
+    }
+
+    public void setInstitutionId(Integer institutionId) {
+        this.institutionId = institutionId;
     }
 
     public String getName() {
@@ -105,6 +115,7 @@ public class Institution {
     // toString
     public String toString() {
         return "Institution{\n id=" + this.id +
+                "\n ,institutionId=" + this.institutionId +
                 "\n ,name='" + this.name +
                 "'\n ,email='" + this.email +
                 "'\n ,description='" + this.description +

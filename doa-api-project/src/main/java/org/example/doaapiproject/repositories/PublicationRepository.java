@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface PublicationRepository extends MongoRepository<Publication, Integer> {
     List<Publication> findPublicationsByInstitutionId (String id);
+    Publication findPublicationByPublicationId (Integer id);
 }

@@ -12,8 +12,10 @@ import java.util.StringJoiner;
 @Document("user")
 public class User {
     @Id
+    private String id;
+
     @Min(value = 0, message = "the id must be bigger then or equal to zero")
-    private Integer id;
+    private Integer userId;
     @NotNull(message = "name cannot be null")
     @Size(max = 50, message = "the number of characters in the name must be between 0 and 50")
     private String name;
@@ -25,20 +27,29 @@ public class User {
     // construtores
     public User(){}
 
-    public User(Integer id, String name, String email) {
+    public User(String id, Integer userId, String name, String email) {
         this.id = id;
+        this.userId = userId;
         this.name = name;
         this.email = email;
     }
 
     // getters e setters
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -60,6 +71,7 @@ public class User {
     // toString
     public String toString() {
         return "User{\n id=" + this.id +
+                "\n ,userId=" + this.userId +
                 "\n ,name='" + this.name +
                 "'\n ,email='" + this.email +
                 "'\n}";

@@ -1,5 +1,6 @@
 package org.example.doaapiproject.services;
 
+import org.example.doaapiproject.models.Institution;
 import org.example.doaapiproject.models.User;
 import org.example.doaapiproject.repositories.UserIdRepository;
 import org.example.doaapiproject.repositories.UserRepository;
@@ -21,14 +22,18 @@ public class UserService {
         // criar o login
         // não vamos cadastrar usuários novos, eles já vão estar cadastrados
         // loginService.createLogin(new Login(user.getEmail(), user.getPassword()));
-        user.setId(userIdRepository.findUserId());
+        user.setUserId(userIdRepository.findUserId());
         return userRepository.save(user);
     }
 
     // find user by id
     public User findUser(String id) {
-        return userRepository.findById(Integer.parseInt(id)).orElseThrow(() ->
-                new RuntimeException("user not found"));
+        User user = userRepository.findUserByUserId(Integer.parseInt(id));
+        if (user != null) {
+            return user;
+        } else {
+            throw new RuntimeException("user not found");
+        }
     }
 
     // find user by email

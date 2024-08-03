@@ -1,5 +1,6 @@
 package org.example.doaapiproject.models;
 
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -12,8 +13,10 @@ import java.util.List;
 @Document("publication")
 public class Publication {
     @Id
+    private String id;
+
     @Min(value = 0, message = "the id must be bigger then or equal to zero")
-    private Integer id;
+    private Integer publicationId;
     @NotNull(message = "the id of the institution cannot be null")
     @Size(message = "the id of the institution must be bigger then or equal to zero")
     private String institutionId;
@@ -31,8 +34,9 @@ public class Publication {
     // construtores
     public Publication(){}
 
-    public Publication(Integer id, String institutionId, String institutionName, String institutionPhoto, String description, List<String> images) {
+    public Publication(String id, Integer publicationId, String institutionId, String institutionName, String institutionPhoto, String description, List<String> images) {
         this.id = id;
+        this.publicationId = publicationId;
         this.institutionId = institutionId;
         this.institutionName = institutionName;
         this.institutionPhoto = institutionPhoto;
@@ -42,12 +46,20 @@ public class Publication {
 
     // getters e setters
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public Integer getPublicationId() {
+        return publicationId;
+    }
+
+    public void setPublicationId(Integer publicationId) {
+        this.publicationId = publicationId;
     }
 
     public String getInstitutionName() {
@@ -93,6 +105,7 @@ public class Publication {
     // toString
     public String toString() {
         return "Publication{\n id=" + this.id +
+                "\n ,publicationId=" + this.publicationId +
                 "\n ,institutionId=" + this.institutionId +
                 "\n ,institutionName='" + this.institutionName +
                 "'\n ,institutionPhoto='" + this.institutionPhoto +

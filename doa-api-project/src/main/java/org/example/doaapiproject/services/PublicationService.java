@@ -28,15 +28,19 @@ public class PublicationService {
         publication.setInstitutionName(institution.getName());
         publication.setInstitutionPhoto(institution.getPhoto());
 
-        institution.setId(publicationIdRepository.findPublicationId());
+        publication.setPublicationId(publicationIdRepository.findPublicationId());
 
         return publicationRepository.save(publication);
     }
 
     // find publication by id
     public Publication findPublication(String id) {
-        return publicationRepository.findById(Integer.parseInt(id)).orElseThrow(() ->
-                new RuntimeException("publication not found"));
+        Publication publication = publicationRepository.findPublicationByPublicationId(Integer.parseInt(id));
+        if (publication != null) {
+            return publication;
+        } else {
+            throw new RuntimeException("publication not found");
+        }
     }
 
     // delete

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface CampaignRepository extends MongoRepository<Campaign, Integer> {
     List<Campaign> findCampaignsByInstitutionId (String id);
+    Campaign findCampaignByCampaignId (Integer id);
 }

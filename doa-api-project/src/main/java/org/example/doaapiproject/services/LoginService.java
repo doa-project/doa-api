@@ -1,5 +1,6 @@
 package org.example.doaapiproject.services;
 
+import org.example.doaapiproject.models.Institution;
 import org.example.doaapiproject.models.Login;
 import org.example.doaapiproject.repositories.LoginRepository;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,12 @@ public class LoginService {
 
     // find login by email
     public Login findLogin(String email) {
-        return loginRepository.findById(email).orElseThrow(() ->
-                new RuntimeException("login not found"));
+        Login login = loginRepository.findLoginByEmail(email);
+        if (login != null) {
+            return login;
+        } else {
+            throw new RuntimeException("login not found");
+        }
     }
 
     // find login by email and password

@@ -1,5 +1,6 @@
 package org.example.doaapiproject.services;
 
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.example.doaapiproject.models.Campaign;
 import org.example.doaapiproject.models.Institution;
 import org.example.doaapiproject.models.Publication;
@@ -10,7 +11,6 @@ import org.example.doaapiproject.repositories.PublicationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -29,14 +29,18 @@ public class InstitutionService {
     // create
     @Transactional
     public Institution createInstitution(Institution institution) {
-        institution.setId(institutionIdRepository.findInstitutionId());
+        institution.setInstitutionId(institutionIdRepository.findInstitutionId());
         return institutionRepository.save(institution);
     }
 
     // find institution by id
     public Institution findInstitution(String id) {
-        return institutionRepository.findById(Integer.parseInt(id)).orElseThrow(() ->
-                new RuntimeException("institution not found"));
+        Institution institution = institutionRepository.findInstitutionByInstitutionId(Integer.parseInt(id));
+        if (institution != null) {
+            return institution;
+        } else {
+            throw new RuntimeException("institution not found");
+        }
     }
 
     // find campaigns by institution's id

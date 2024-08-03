@@ -7,6 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("login")
 public class Login {
     @Id
+    private String id;
+
     @Email(message = "invalid e-mail")
     @Size(max = 100, message = "the number of characters in the e-mail must be between 0 and 100")
     private String email;
@@ -19,12 +21,22 @@ public class Login {
     // construtores
     public Login(){}
 
-    public Login(String email, String password) {
+    public Login(String id, String email, String password) {
+        this.id = id;
         this.email = email;
         this.password = password;
     }
 
     // getters e setters
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -43,7 +55,8 @@ public class Login {
 
     // toString
     public String toString() {
-        return "Login{\n email=" + this.email +
+        return "Login{\n id=" + this.id +
+                "\n ,email='" + this.email +
                 "\n ,password='" + this.password +
                 "'\n}";
     }

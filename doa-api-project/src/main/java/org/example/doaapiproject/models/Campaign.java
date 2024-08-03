@@ -12,8 +12,10 @@ import java.util.List;
 @Document("campaign")
 public class Campaign {
     @Id
-    @Min(value = 0, message = "the id must be bigger then or equal to zero")
-    private Integer id;
+    private String id;
+
+    @Size(message = "the id must be bigger then or equal to zero")
+    private Integer campaignId;
     @NotNull(message = "the id of the institution cannot be null")
     @Size(message = "the id of the institution must be bigger then or equal to zero")
     private String institutionId;
@@ -35,8 +37,9 @@ public class Campaign {
     // construtores
     public Campaign(){}
 
-    public Campaign(Integer id, String institutionId, String institutionName, String institutionPhoto, String description, List<String> images, String endDate, String local) {
+    public Campaign(String id, Integer campaignId, String institutionId, String institutionName, String institutionPhoto, String description, List<String> images, String endDate, String local) {
         this.id = id;
+        this.campaignId = campaignId;
         this.institutionId = institutionId;
         this.institutionName = institutionName;
         this.institutionPhoto = institutionPhoto;
@@ -48,12 +51,20 @@ public class Campaign {
 
     // getters e setters
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public Integer getCampaignId() {
+        return campaignId;
+    }
+
+    public void setCampaignId(Integer campaignId) {
+        this.campaignId = campaignId;
     }
 
     public String getInstitutionName() {
@@ -115,7 +126,8 @@ public class Campaign {
     // toString
     public String toString() {
         return "Campaign{\n id=" + this.id +
-                "\n institutionId=" + this.institutionId +
+                "\n ,campaignId=" + this.campaignId +
+                "\n ,institutionId=" + this.institutionId +
                 "\n ,institutionName='" + this.institutionName +
                 "'\n ,institutionPhoto='" + this.institutionPhoto +
                 "'\n ,description='" + this.description +
