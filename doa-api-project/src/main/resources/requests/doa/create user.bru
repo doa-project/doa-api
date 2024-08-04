@@ -4,8 +4,15 @@ meta {
   seq: 2
 }
 
-get {
-  url: 
-  body: none
+post {
+  url: http://localhost:8080/user/create
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "name": "sophie kumagai",
+    "email": "sophie_teste@gmail.com"
+  }
 }

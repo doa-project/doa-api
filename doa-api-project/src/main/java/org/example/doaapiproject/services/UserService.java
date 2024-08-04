@@ -23,10 +23,15 @@ public class UserService {
         // criar o login
         // não vamos cadastrar usuários novos, eles já vão estar cadastrados
         // loginService.createLogin(new Login(user.getEmail(), user.getPassword()));
-        Integer id = userIdRepository.findUserId();
-        user.setUserId(id);
-        userIdRepository.save(new UserId(id + 1));
-        return userRepository.save(user);
+        try {
+            userRepository.findUserByUserId(user.getUserId());
+            return userRepository.save(user);
+        } catch (RuntimeException r) {
+            Integer id = userIdRepository.findUserId();
+            user.setUserId(id);
+            userIdRepository.save(new UserId(id + 1));
+            return userRepository.save(user);
+        }
     }
 
     // find user by id

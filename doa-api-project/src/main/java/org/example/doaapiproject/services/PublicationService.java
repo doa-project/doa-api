@@ -29,11 +29,15 @@ public class PublicationService {
         publication.setInstitutionName(institution.getName());
         publication.setInstitutionPhoto(institution.getPhoto());
 
-        Integer id = publicationIdRepository.findPublicationId();
-        publication.setPublicationId(id);
-        publicationIdRepository.save(new PublicationId(id + 1));
-
-        return publicationRepository.save(publication);
+        try {
+            publicationRepository.findPublicationByPublicationId(publication.getPublicationId());
+            return publicationRepository.save(publication);
+        } catch (RuntimeException r) {
+            Integer id = publicationIdRepository.findPublicationId();
+            publication.setPublicationId(id);
+            publicationIdRepository.save(new PublicationId(id + 1));
+            return publicationRepository.save(publication);
+        }
     }
 
     // find publication by id

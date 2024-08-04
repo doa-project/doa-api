@@ -34,11 +34,15 @@ public class CampaignService {
             throw new RuntimeException("the end date must be after today");
         }
 
-        Integer id = campaignIdRepository.findCampaignId();
-        campaign.setCampaignId(id);
-        campaignIdRepository.save(new CampaignId(id + 1));
-
-        return campaignRepository.save(campaign);
+        try {
+            campaignRepository.findCampaignByCampaignId(campaign.getCampaignId());
+            return campaignRepository.save(campaign);
+        } catch (RuntimeException r) {
+            Integer id = campaignIdRepository.findCampaignId();
+            campaign.setCampaignId(id);
+            campaignIdRepository.save(new CampaignId(id + 1));
+            return campaignRepository.save(campaign);
+        }
     }
 
     // find campaign by id

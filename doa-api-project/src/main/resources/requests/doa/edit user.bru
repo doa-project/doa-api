@@ -1,0 +1,18 @@
+meta {
+  name: edit user
+  type: http
+  seq: 3
+}
+
+put {
+  url: http://localhost:8080/user/edit/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "rapha cosil",
+    "email": "rapha_teste@gmail.com"
+  }
+}

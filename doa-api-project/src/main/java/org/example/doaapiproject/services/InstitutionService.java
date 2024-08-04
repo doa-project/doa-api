@@ -30,10 +30,15 @@ public class InstitutionService {
     // create
     @Transactional
     public Institution createInstitution(Institution institution) {
-        Integer id = institutionIdRepository.findInstitutionId();
-        institution.setInstitutionId(id);
-        institutionIdRepository.save(new InstitutionId(id + 1));
-        return institutionRepository.save(institution);
+        try {
+            institutionRepository.findInstitutionByInstitutionId(institution.getInstitutionId());
+            return institutionRepository.save(institution);
+        } catch (RuntimeException r) {
+            Integer id = institutionIdRepository.findInstitutionId();
+            institution.setInstitutionId(id);
+            institutionIdRepository.save(new InstitutionId(id + 1));
+            return institutionRepository.save(institution);
+        }
     }
 
     // find institution by id
