@@ -23,6 +23,8 @@ public class UserService {
         // não vamos cadastrar usuários novos, eles já vão estar cadastrados
         // loginService.createLogin(new Login(user.getEmail(), user.getPassword()));
         user.setUserId(userIdRepository.findUserId());
+        System.out.println(userIdRepository.findUserId());
+        System.out.println(user.getUserId());
         return userRepository.save(user);
     }
 
