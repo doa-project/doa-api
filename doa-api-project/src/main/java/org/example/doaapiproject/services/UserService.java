@@ -2,6 +2,7 @@ package org.example.doaapiproject.services;
 
 import org.example.doaapiproject.models.Institution;
 import org.example.doaapiproject.models.User;
+import org.example.doaapiproject.models.UserId;
 import org.example.doaapiproject.repositories.UserIdRepository;
 import org.example.doaapiproject.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,9 @@ public class UserService {
         // criar o login
         // não vamos cadastrar usuários novos, eles já vão estar cadastrados
         // loginService.createLogin(new Login(user.getEmail(), user.getPassword()));
-        user.setUserId(userIdRepository.findUserId());
-        System.out.println(userIdRepository.findUserId());
-        System.out.println(user.getUserId());
+        Integer id = userIdRepository.findUserId();
+        user.setUserId(id);
+        userIdRepository.save(new UserId(id + 1));
         return userRepository.save(user);
     }
 

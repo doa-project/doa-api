@@ -15,6 +15,10 @@ public class UserId {
         this.id = id;
         this.userId = userId;
     }
+    public UserId(Integer userId) {
+        this.id = id;
+        this.userId = userId;
+    }
 
     public String getId() {
         return id;

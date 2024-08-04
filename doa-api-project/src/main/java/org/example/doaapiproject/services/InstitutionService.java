@@ -3,6 +3,7 @@ package org.example.doaapiproject.services;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.example.doaapiproject.models.Campaign;
 import org.example.doaapiproject.models.Institution;
+import org.example.doaapiproject.models.InstitutionId;
 import org.example.doaapiproject.models.Publication;
 import org.example.doaapiproject.repositories.CampaignRepository;
 import org.example.doaapiproject.repositories.InstitutionIdRepository;
@@ -29,7 +30,9 @@ public class InstitutionService {
     // create
     @Transactional
     public Institution createInstitution(Institution institution) {
-        institution.setInstitutionId(institutionIdRepository.findInstitutionId());
+        Integer id = institutionIdRepository.findInstitutionId();
+        institution.setInstitutionId(id);
+        institutionIdRepository.save(new InstitutionId(id + 1));
         return institutionRepository.save(institution);
     }
 

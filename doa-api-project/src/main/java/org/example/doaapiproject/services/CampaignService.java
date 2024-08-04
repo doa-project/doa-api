@@ -1,6 +1,7 @@
 package org.example.doaapiproject.services;
 
 import org.example.doaapiproject.models.Campaign;
+import org.example.doaapiproject.models.CampaignId;
 import org.example.doaapiproject.models.Institution;
 import org.example.doaapiproject.repositories.CampaignIdRepository;
 import org.example.doaapiproject.repositories.CampaignRepository;
@@ -33,7 +34,9 @@ public class CampaignService {
             throw new RuntimeException("the end date must be after today");
         }
 
-        campaign.setCampaignId(campaignIdRepository.findCampaignId());
+        Integer id = campaignIdRepository.findCampaignId();
+        campaign.setCampaignId(id);
+        campaignIdRepository.save(new CampaignId(id + 1));
 
         return campaignRepository.save(campaign);
     }

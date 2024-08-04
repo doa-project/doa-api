@@ -17,6 +17,10 @@ public class CampaignId {
         this.id = id;
         this.campaignId = campaignId;
     }
+    public CampaignId(Integer campaignId) {
+        this.id = id;
+        this.campaignId = campaignId;
+    }
 
     public String getId() {
         return id;

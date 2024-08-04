@@ -2,6 +2,7 @@ package org.example.doaapiproject.services;
 
 import org.example.doaapiproject.models.Institution;
 import org.example.doaapiproject.models.Publication;
+import org.example.doaapiproject.models.PublicationId;
 import org.example.doaapiproject.repositories.InstitutionIdRepository;
 import org.example.doaapiproject.repositories.PublicationIdRepository;
 import org.example.doaapiproject.repositories.PublicationRepository;
@@ -28,7 +29,9 @@ public class PublicationService {
         publication.setInstitutionName(institution.getName());
         publication.setInstitutionPhoto(institution.getPhoto());
 
-        publication.setPublicationId(publicationIdRepository.findPublicationId());
+        Integer id = publicationIdRepository.findPublicationId();
+        publication.setPublicationId(id);
+        publicationIdRepository.save(new PublicationId(id + 1));
 
         return publicationRepository.save(publication);
     }

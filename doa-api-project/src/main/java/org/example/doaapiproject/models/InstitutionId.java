@@ -16,6 +16,10 @@ public class InstitutionId {
         this.id = id;
         this.institutionId = institutionId;
     }
+    public InstitutionId(Integer institutionId) {
+        this.id = id;
+        this.institutionId = institutionId;
+    }
 
     public String getId() {
         return id;
