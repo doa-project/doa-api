@@ -14,7 +14,7 @@ public class Campaign {
     @Id
     private String id;
 
-    @Size(message = "the id must be bigger then or equal to zero")
+    @Min(value = 0, message = "the id must be bigger then or equal to zero")
     private Integer campaignId;
     @NotNull(message = "the id of the institution cannot be null")
     @Size(message = "the id of the institution must be bigger then or equal to zero")

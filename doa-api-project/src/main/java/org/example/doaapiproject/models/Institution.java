@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Institution {
     @Id
     private String id;
-    @Size(message = "the id must be bigger then or equal to zero")
+    @Min(value = 0, message = "the id must be bigger then or equal to zero")
     private Integer institutionId;
     @NotNull(message = "name cannot be null")
     @Size(max = 50, message = "the number of characters in the name must be between 0 and 50")
