@@ -23,10 +23,9 @@ public class UserService {
         // criar o login
         // não vamos cadastrar usuários novos, eles já vão estar cadastrados
         // loginService.createLogin(new Login(user.getEmail(), user.getPassword()));
-        try {
-            userRepository.findUserByUserId(user.getUserId());
+        if (user.getUserId() != null) {
             return userRepository.save(user);
-        } catch (RuntimeException r) {
+        } else {
             Integer id = userIdRepository.findUserId();
             user.setUserId(id);
             userIdRepository.save(new UserId(id + 1));

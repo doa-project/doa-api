@@ -29,10 +29,9 @@ public class PublicationService {
         publication.setInstitutionName(institution.getName());
         publication.setInstitutionPhoto(institution.getPhoto());
 
-        try {
-            publicationRepository.findPublicationByPublicationId(publication.getPublicationId());
+        if (publication.getPublicationId() != null) {
             return publicationRepository.save(publication);
-        } catch (RuntimeException r) {
+        } else {
             Integer id = publicationIdRepository.findPublicationId();
             publication.setPublicationId(id);
             publicationIdRepository.save(new PublicationId(id + 1));
