@@ -1,0 +1,25 @@
+meta {
+  name: create campaign
+  type: http
+  seq: 11
+}
+
+post {
+  url: http://localhost:8080/campaign/create
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "institutionId": "5",
+    "description": "campaign campaign",
+    "images": [
+      "image1",
+      "image2",
+      "image3"
+    ],
+    "endDate": "08/10/2024",
+    "local": "são paulo"
+  }
+}

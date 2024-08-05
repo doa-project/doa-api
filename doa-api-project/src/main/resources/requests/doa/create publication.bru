@@ -1,0 +1,24 @@
+meta {
+  name: create publication
+  type: http
+  seq: 9
+}
+
+post {
+  url: http://localhost:8080/publication/create
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "institutionId": "7",
+    "description": "publication publication",
+    "description": "description description",
+    "images": [
+      "image1",
+      "image2",
+      "image3"
+    ]
+  }
+}

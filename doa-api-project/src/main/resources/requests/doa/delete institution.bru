@@ -1,19 +1,19 @@
 meta {
-  name: create institution
+  name: delete institution
   type: http
-  seq: 5
+  seq: 7
 }
 
-post {
-  url: http://localhost:8080/institution/create
-  body: json
+delete {
+  url: http://localhost:8080/institution/delete/2
+  body: none
   auth: none
 }
 
 body:json {
   {
-    "name": "institution 2",
-    "email": "institution2_teste@gmail.com",
+    "name": "institution 3",
+    "email": "institution3_teste@gmail.com",
     "description": "description description",
     "local": "osasco",
     "phone": "(11) 98765-2345",

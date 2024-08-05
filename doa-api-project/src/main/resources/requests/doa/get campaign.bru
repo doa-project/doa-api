@@ -1,0 +1,24 @@
+meta {
+  name: get campaign
+  type: http
+  seq: 12
+}
+
+get {
+  url: http://localhost:8080/campaign/get/4
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "institutionId": "0",
+    "description": "publication publication",
+    "description": "description description",
+    "images": [
+      "image1",
+      "image2",
+      "image3"
+    ]
+  }
+}

@@ -24,10 +24,14 @@ public class PublicationService {
 
     // create
     @Transactional
-    public Publication createPublication(Publication publication) {
-        Institution institution = institutionService.findInstitution(publication.getInstitutionId());
-        publication.setInstitutionName(institution.getName());
-        publication.setInstitutionPhoto(institution.getPhoto());
+    public Publication createPublication(Publication publication) throws RuntimeException {
+        try {
+            Institution institution = institutionService.findInstitution(publication.getInstitutionId());
+            publication.setInstitutionName(institution.getName());
+            publication.setInstitutionPhoto(institution.getPhoto());
+        } catch (RuntimeException r) {
+            throw new RuntimeException(r);
+        }
 
         if (publication.getPublicationId() != null) {
             return publicationRepository.save(publication);

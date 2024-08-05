@@ -32,7 +32,11 @@ public class PublicationController {
 
             return new ResponseEntity<>(erros, HttpStatus.BAD_REQUEST);
         } else {
-            publicationService.createPublication(publication);
+            try {
+                publicationService.createPublication(publication);
+            } catch (RuntimeException r) {
+                return new ResponseEntity<>(r.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
+            }
             return new ResponseEntity<>(publication, HttpStatus.OK);
         }
     }

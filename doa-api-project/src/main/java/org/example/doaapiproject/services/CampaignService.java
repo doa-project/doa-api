@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -26,12 +28,21 @@ public class CampaignService {
     // create
     @Transactional
     public Campaign createCampaign(Campaign campaign) throws RuntimeException{
-        Institution institution = institutionService.findInstitution(campaign.getInstitutionId());
-        campaign.setInstitutionName(institution.getName());
-        campaign.setInstitutionPhoto(institution.getPhoto());
+        try {
+            Institution institution = institutionService.findInstitution(campaign.getInstitutionId());
+            campaign.setInstitutionName(institution.getName());
+            campaign.setInstitutionPhoto(institution.getPhoto());
+        } catch (RuntimeException r) {
+            throw new RuntimeException(r);
+        }
 
-        if (Date.valueOf(campaign.getEndDate()).before(Date.valueOf(LocalDate.now())) || Date.valueOf(campaign.getEndDate()).equals(Date.valueOf(LocalDate.now()))) {
-            throw new RuntimeException("the end date must be after today");
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            if (formato.parse(campaign.getEndDate()).before(Date.valueOf(LocalDate.now())) || formato.parse(campaign.getEndDate()).equals(Date.valueOf(LocalDate.now()))) {
+                throw new RuntimeException("the end date must be after today");
+            }
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
 
         if (campaign.getCampaignId() != null) {
