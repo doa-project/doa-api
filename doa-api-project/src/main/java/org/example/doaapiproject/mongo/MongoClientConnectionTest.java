@@ -13,7 +13,7 @@ import org.bson.Document;
 
 public class MongoClientConnectionTest {
     public static void main(String[] args) {
-        String connectionString = "mongodb+srv://doaUser:ovCr5OQiYL18WceE@doa.dgfasw5.mongodb.net/?retryWrites=true&w=majority&appName=doa";
+        String connectionString = "mongodb+srv://doa_user:0GcIgJHwIz3sl7su@dbdoa.jm8dctp.mongodb.net/?retryWrites=true&w=majority&appName=dbdoa";
 
         ServerApi serverApi = ServerApi.builder()
                 .version(ServerApiVersion.V1)

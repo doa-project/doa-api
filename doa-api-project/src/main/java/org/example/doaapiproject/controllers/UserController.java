@@ -1,6 +1,13 @@
 package org.example.doaapiproject.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import org.example.doaapiproject.models.Campaign;
 import org.example.doaapiproject.models.User;
 import org.example.doaapiproject.services.UserService;
 import org.springframework.http.HttpStatus;
@@ -24,6 +31,14 @@ public class UserController {
 
     // create
     @PostMapping("/create")
+    @Operation(summary = "Create an user", description = "Returns the user created")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User created",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Campaign.class))),
+            @ApiResponse(responseCode = "500", description = "Intern error in the system",
+                    content = @Content())
+    })
     public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
         if (result.hasErrors()) {
             Map<String, String> erros = new HashMap<>();
@@ -40,7 +55,17 @@ public class UserController {
 
     // update
     @PutMapping("/edit/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable String id, @Valid @RequestBody User updatedUser, BindingResult result) {
+    @Operation(summary = "Update an user", description = "Returns the user updated")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User updated",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Campaign.class))),
+            @ApiResponse(responseCode = "500", description = "Intern error in the system",
+                    content = @Content()),
+            @ApiResponse(responseCode = "404", description = "The user was not found",
+                    content = @Content())
+    })
+    public ResponseEntity<?> updateUser(@Parameter(name = "id", description = "Requires the id of the user", required = true) @PathVariable String id, @Valid @RequestBody User updatedUser, BindingResult result) {
 
         if (result.hasErrors()) {
             Map<String, String> erros = new HashMap<>();
@@ -51,17 +76,29 @@ public class UserController {
 
             return new ResponseEntity<>(erros, HttpStatus.BAD_REQUEST);
         } else {
-            User user = userService.findUser(id);
-            user.setName(updatedUser.getName());
-            user.setEmail(updatedUser.getEmail());
-            userService.createUser(user);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            try {
+                User user = userService.findUser(id);
+                user.setName(updatedUser.getName());
+                user.setEmail(updatedUser.getEmail());
+                userService.createUser(user);
+                return new ResponseEntity<>(user, HttpStatus.OK);
+            } catch (RuntimeException r) {
+                return new ResponseEntity<>(r.getLocalizedMessage(), HttpStatus.NOT_FOUND);
+            }
         }
     }
 
     // delete
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable String id) {
+    @Operation(summary = "Delete an user", description = "Returns the user updated")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User deleted",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Campaign.class))),
+            @ApiResponse(responseCode = "500", description = "Intern error in the system",
+                    content = @Content())
+    })
+    public ResponseEntity<?> deleteUser(@Parameter(name = "id", description = "Requires the id of the user", required = true)@PathVariable String id) {
         try {
             User userDeleted = userService.deleteUser(id);
             return ResponseEntity.status(HttpStatus.OK).body(userDeleted);

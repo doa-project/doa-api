@@ -1,6 +1,12 @@
 package org.example.doaapiproject.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import org.example.doaapiproject.models.Campaign;
 import org.example.doaapiproject.models.Login;
 import org.example.doaapiproject.services.LoginService;
 import org.example.doaapiproject.services.UserService;
@@ -26,6 +32,16 @@ public class LoginController {
 
     // create
     @PostMapping("/login")
+    @Operation(summary = "Login", description = "Returns the login found")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Login was found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Campaign.class))),
+            @ApiResponse(responseCode = "500", description = "Intern error in the system",
+                    content = @Content()),
+            @ApiResponse(responseCode = "404", description = "The login was not found",
+                    content = @Content())
+    })
     public Object login(@Valid @RequestBody Login login, BindingResult result) {
         if (result.hasErrors()) {
             Map<String, String> erros = new HashMap<>();

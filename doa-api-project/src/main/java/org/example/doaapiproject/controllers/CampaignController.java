@@ -1,6 +1,7 @@
 package org.example.doaapiproject.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -29,6 +30,14 @@ public class CampaignController {
     }
     // create
     @PostMapping("/create")
+    @Operation(summary = "Create a campaign", description = "Returns the campaign created")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Campaign created",
+                    content = @Content(mediaType = "application/json",
+                                        schema = @Schema(implementation = Campaign.class))),
+            @ApiResponse(responseCode = "500", description = "Intern error in the system",
+                    content = @Content())
+    })
     public ResponseEntity<?> createCampaign(@Valid @RequestBody Campaign campaign, BindingResult result) {
         if (result.hasErrors()) {
             Map<String, String> erros = new HashMap<>();
@@ -49,13 +58,15 @@ public class CampaignController {
 
     // get
     @GetMapping("/get")
+    @Operation(summary = "Get all campaigns", description = "Returns a list of the campaigns found")
     public List<Campaign> getAllCampaign() {
         return campaignService.getAllCampaign();
     }
 
     // get campain by institution's id
     @GetMapping("/get/{id_institution}")
-    public List<Campaign> getAllCampaignOfInstitution(@PathVariable String id_institution) {
+    @Operation(summary = "Get a campaign by the id of the institution", description = "Returns the campaign found")
+    public List<Campaign> getAllCampaignOfInstitution(@Parameter(name = "id_institution", description = "Requires the id of the institution", required = true) @PathVariable String id_institution) {
         return campaignService.getAllCampaignOfInstitution(id_institution);
     }
 }

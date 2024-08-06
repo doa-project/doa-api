@@ -1,6 +1,13 @@
 package org.example.doaapiproject.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import org.example.doaapiproject.models.Campaign;
 import org.example.doaapiproject.models.Institution;
 import org.example.doaapiproject.services.InstitutionService;
 import org.springframework.http.HttpStatus;
@@ -23,6 +30,14 @@ public class InstitutionController {
 
     // create
     @PostMapping("/create")
+    @Operation(summary = "Create an institution", description = "Returns the institution created")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Institution created",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Campaign.class))),
+            @ApiResponse(responseCode = "500", description = "Intern error in the system",
+                    content = @Content())
+    })
     public ResponseEntity<?> createInstitution(@Valid @RequestBody Institution institution, BindingResult result) {
         if (result.hasErrors()) {
             Map<String, String> erros = new HashMap<>();
@@ -39,7 +54,17 @@ public class InstitutionController {
 
     // update
     @PutMapping("/edit/{id}")
-    public ResponseEntity<?> updateInstitution(@PathVariable String id, @Valid @RequestBody Institution institutionUpdated, BindingResult result) {
+    @Operation(summary = "Update an institution", description = "Returns the institution updated")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Institution updated",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Campaign.class))),
+            @ApiResponse(responseCode = "500", description = "Intern error in the system",
+                    content = @Content()),
+            @ApiResponse(responseCode = "404", description = "The institution was not found",
+                    content = @Content())
+    })
+    public ResponseEntity<?> updateInstitution(@Parameter(name = "id_institution", description = "Requires the id of the institution", required = true) @PathVariable String id, @Valid @RequestBody Institution institutionUpdated, BindingResult result) {
 
         if (result.hasErrors()) {
             Map<String, String> erros = new HashMap<>();
@@ -50,21 +75,33 @@ public class InstitutionController {
 
             return new ResponseEntity<>(erros, HttpStatus.BAD_REQUEST);
         } else {
-            Institution institution = institutionService.findInstitution(id);
-            institution.setName(institutionUpdated.getName());
-            institution.setEmail(institutionUpdated.getEmail());
-            institution.setDescription(institutionUpdated.getDescription());
-            institution.setLocal(institutionUpdated.getLocal());
-            institution.setPhone(institutionUpdated.getPhone());
-            institution.setPhoto(institutionUpdated.getPhoto());
-            institutionService.createInstitution(institution);
-            return new ResponseEntity<>(institution, HttpStatus.OK);
+            try {
+                Institution institution = institutionService.findInstitution(id);
+                institution.setName(institutionUpdated.getName());
+                institution.setEmail(institutionUpdated.getEmail());
+                institution.setDescription(institutionUpdated.getDescription());
+                institution.setLocal(institutionUpdated.getLocal());
+                institution.setPhone(institutionUpdated.getPhone());
+                institution.setPhoto(institutionUpdated.getPhoto());
+                institutionService.createInstitution(institution);
+                return new ResponseEntity<>(institution, HttpStatus.OK);
+            } catch (RuntimeException r) {
+                return new ResponseEntity<>(r.getLocalizedMessage(), HttpStatus.NOT_FOUND);
+            }
         }
     }
 
     // delete
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteInstitution(@PathVariable String id) {
+    @Operation(summary = "Delete an institution", description = "Returns the institution updated")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Institution deleted",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Campaign.class))),
+            @ApiResponse(responseCode = "500", description = "Intern error in the system",
+                    content = @Content())
+    })
+    public ResponseEntity<?> deleteInstitution(@Parameter(name = "id_institution", description = "Requires the id of the institution", required = true) @PathVariable String id) {
         try {
             Institution institutionDeleted = institutionService.deleteInstitution(id);
             return ResponseEntity.status(HttpStatus.OK).body(institutionDeleted);
