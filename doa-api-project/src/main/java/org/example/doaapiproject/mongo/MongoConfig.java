@@ -13,11 +13,11 @@ public class MongoConfig {
 
     @Bean
     public MongoClient mongoClient() {
-        return MongoClients.create("mongodb+srv://doaUser:ovCr5OQiYL18WceE@doa.dgfasw5.mongodb.net/?retryWrites=true&w=majority&appName=doa");
+        return MongoClients.create("mongodb+srv://doa_user:0GcIgJHwIz3sl7su@dbdoa.jm8dctp.mongodb.net/?retryWrites=true&w=majority&appName=dbdoa");
     }
 
     @Bean
     public MongoTemplate mongoTemplate() {
-        return new MongoTemplate(mongoClient(), "doa");
+        return new MongoTemplate(mongoClient(), "dbdoa");
     }
 }
