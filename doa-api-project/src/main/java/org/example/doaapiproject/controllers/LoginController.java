@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.example.doaapiproject.models.Campaign;
 import org.example.doaapiproject.models.Login;
+import org.example.doaapiproject.services.InstitutionService;
 import org.example.doaapiproject.services.LoginService;
 import org.example.doaapiproject.services.UserService;
 import org.springframework.http.HttpStatus;
@@ -25,9 +26,11 @@ import java.util.Map;
 public class LoginController {
     private final LoginService loginService;
     private final UserService userService;
-    public LoginController(LoginService loginService, UserService userService) {
+    private final InstitutionService institutionService;
+    public LoginController(LoginService loginService, UserService userService, InstitutionService institutionService) {
         this.loginService = loginService;
         this.userService = userService;
+        this.institutionService = institutionService;
     }
 
     // create
@@ -64,10 +67,14 @@ public class LoginController {
             try {
                 response = userService.findUserByEmail(login.getEmail());;
             } catch (RuntimeException r) {
-                response = null;
+                // verificando se é Institution
+                try {
+                    response = institutionService.findInstitutionByEmail(login.getEmail());
+                } catch (RuntimeException re) {
+                    return new ResponseEntity<>(re.getLocalizedMessage(), HttpStatus.NOT_FOUND);
+                }
             }
 
-            // verificando se é Institution
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
     }

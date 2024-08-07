@@ -70,6 +70,15 @@ public class InstitutionService {
         }
     }
 
+    // find institution by email
+    public Institution findInstitutionByEmail (String email) throws RuntimeException {
+        Institution institution = institutionRepository.findInstitutionByEmail(email);
+        if (institution != null) {
+            return institution;
+        } else {
+            throw new RuntimeException("institution not found");
+        }
+    }
     // delete
     @Transactional
     public Institution deleteInstitution(String id) {

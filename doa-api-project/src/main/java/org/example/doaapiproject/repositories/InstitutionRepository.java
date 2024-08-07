@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface InstitutionRepository extends MongoRepository<Institution, Integer> {
     Institution findInstitutionByInstitutionId (Integer id);
+    Institution findInstitutionByEmail (String email);
 }
