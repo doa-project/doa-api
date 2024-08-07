@@ -40,8 +40,8 @@ public class LoginService {
     }
 
     // find login by userId
-    public Login findLoginByUserId(String id) throws RuntimeException{
-        Login login = loginRepository.findLoginByUserId(Integer.parseInt(id));
+    public Login findLoginByUserIdAndEmail(String id, String email) throws RuntimeException{
+        Login login = loginRepository.findLoginByUserIdAndEmail(Integer.parseInt(id), email);
         if (login != null) {
             return login;
         } else {

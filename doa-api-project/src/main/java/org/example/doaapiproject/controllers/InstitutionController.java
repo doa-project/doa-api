@@ -9,7 +9,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.example.doaapiproject.models.Campaign;
 import org.example.doaapiproject.models.Institution;
+import org.example.doaapiproject.models.InstitutionRegistrationRequest;
+import org.example.doaapiproject.models.Login;
 import org.example.doaapiproject.services.InstitutionService;
+import org.example.doaapiproject.services.LoginService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -24,8 +27,10 @@ import java.util.Map;
 @RequestMapping("/institution")
 public class InstitutionController {
     private final InstitutionService institutionService;
-    public InstitutionController(InstitutionService institutionService) {
+    private final LoginService loginService;
+    public InstitutionController(InstitutionService institutionService, LoginService loginService) {
         this.institutionService = institutionService;
+        this.loginService = loginService;
     }
 
     // create
@@ -38,7 +43,7 @@ public class InstitutionController {
             @ApiResponse(responseCode = "500", description = "Intern error in the system",
                     content = @Content())
     })
-    public ResponseEntity<?> createInstitution(@Valid @RequestBody Institution institution, BindingResult result) {
+    public ResponseEntity<?> createInstitution(@Valid @RequestBody InstitutionRegistrationRequest institution, BindingResult result) {
         if (result.hasErrors()) {
             Map<String, String> erros = new HashMap<>();
             for (FieldError erro : result.getFieldErrors()) {
@@ -47,8 +52,9 @@ public class InstitutionController {
 
             return new ResponseEntity<>(erros, HttpStatus.BAD_REQUEST);
         } else {
-            institutionService.createInstitution(institution);
-            return new ResponseEntity<>(institution, HttpStatus.OK);
+            Institution institutionCreated = institutionService.createInstitution(new Institution(institution.getName(), institution.getEmail(), institution.getDescription(), institution.getLocal(), institution.getPhone(), institution.getPhoto()));
+            loginService.createLogin(new Login(institutionCreated.getInstitutionId(), institution.getEmail(), institution.getPassword()));
+            return new ResponseEntity<>(institutionCreated, HttpStatus.OK);
         }
     }
 
@@ -64,7 +70,7 @@ public class InstitutionController {
             @ApiResponse(responseCode = "404", description = "The institution was not found",
                     content = @Content())
     })
-    public ResponseEntity<?> updateInstitution(@Parameter(name = "id_institution", description = "Requires the id of the institution", required = true) @PathVariable String id, @Valid @RequestBody Institution institutionUpdated, BindingResult result) {
+    public ResponseEntity<?> updateInstitution(@Parameter(name = "id_institution", description = "Requires the id of the institution", required = true) @PathVariable String id, @Valid @RequestBody InstitutionRegistrationRequest institutionUpdated, BindingResult result) {
 
         if (result.hasErrors()) {
             Map<String, String> erros = new HashMap<>();
@@ -84,6 +90,10 @@ public class InstitutionController {
                 institution.setPhone(institutionUpdated.getPhone());
                 institution.setPhoto(institutionUpdated.getPhoto());
                 institutionService.createInstitution(institution);
+
+                Login login = loginService.findLoginByUserIdAndEmail(id, institutionUpdated.getEmail());
+                login.setPassword(institutionUpdated.getPassword());
+                loginService.createLogin(login);
                 return new ResponseEntity<>(institution, HttpStatus.OK);
             } catch (RuntimeException r) {
                 return new ResponseEntity<>(r.getLocalizedMessage(), HttpStatus.NOT_FOUND);

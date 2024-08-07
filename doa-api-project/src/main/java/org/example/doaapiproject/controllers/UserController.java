@@ -87,7 +87,7 @@ public class UserController {
                 user.setName(updatedUser.getName());
                 user.setEmail(updatedUser.getEmail());
 
-                Login login = loginService.findLoginByUserId(id);
+                Login login = loginService.findLoginByUserIdAndEmail(id, updatedUser.getEmail());
                 login.setEmail(updatedUser.getEmail());
                 login.setPassword(updatedUser.getPassword());
 
