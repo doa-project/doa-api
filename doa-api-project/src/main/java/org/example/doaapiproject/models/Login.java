@@ -31,6 +31,10 @@ public class Login {
         this.email = email;
         this.password = password;
     }
+    public Login(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 
     // getters e setters
 

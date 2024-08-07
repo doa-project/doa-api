@@ -21,8 +21,6 @@ public class UserService {
     @Transactional
     public User createUser(User user) {
         // criar o login
-        // não vamos cadastrar usuários novos, eles já vão estar cadastrados
-        // loginService.createLogin(new Login(user.getEmail(), user.getPassword()));
         if (user.getUserId() != null) {
             return userRepository.save(user);
         } else {

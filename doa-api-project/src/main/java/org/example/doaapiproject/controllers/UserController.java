@@ -8,7 +8,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.example.doaapiproject.models.Campaign;
+import org.example.doaapiproject.models.Login;
 import org.example.doaapiproject.models.User;
+import org.example.doaapiproject.models.UserRegistrationRequest;
+import org.example.doaapiproject.services.LoginService;
 import org.example.doaapiproject.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +27,11 @@ import java.util.Map;
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
+    private final LoginService loginService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, LoginService loginService) {
         this.userService = userService;
+        this.loginService = loginService;
     }
 
     // create
@@ -39,7 +44,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Intern error in the system",
                     content = @Content())
     })
-    public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserRegistrationRequest user, BindingResult result) {
         if (result.hasErrors()) {
             Map<String, String> erros = new HashMap<>();
             for (FieldError erro : result.getFieldErrors()) {
@@ -48,7 +53,8 @@ public class UserController {
 
             return new ResponseEntity<>(erros, HttpStatus.BAD_REQUEST);
         } else {
-            userService.createUser(user);
+            userService.createUser(new User(user.getName(), user.getEmail()));
+            loginService.createLogin(new Login(user.getEmail(), user.getPassword()));
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
     }

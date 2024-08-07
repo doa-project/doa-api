@@ -40,6 +40,11 @@ public class User {
         this.email = email;
     }
 
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
     // getters e setters
 
     public String getId() {
