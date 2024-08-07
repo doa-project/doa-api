@@ -83,6 +83,12 @@ public class InstitutionController {
         } else {
             try {
                 Institution institution = institutionService.findInstitution(id);
+
+                Login login = loginService.findLoginByUserIdAndEmail(id, institution.getEmail());
+                login.setEmail(institutionUpdated.getEmail());
+                login.setPassword(institutionUpdated.getPassword());
+                loginService.createLogin(login);
+
                 institution.setName(institutionUpdated.getName());
                 institution.setEmail(institutionUpdated.getEmail());
                 institution.setDescription(institutionUpdated.getDescription());
@@ -90,10 +96,6 @@ public class InstitutionController {
                 institution.setPhone(institutionUpdated.getPhone());
                 institution.setPhoto(institutionUpdated.getPhoto());
                 institutionService.createInstitution(institution);
-
-                Login login = loginService.findLoginByUserIdAndEmail(id, institutionUpdated.getEmail());
-                login.setPassword(institutionUpdated.getPassword());
-                loginService.createLogin(login);
                 return new ResponseEntity<>(institution, HttpStatus.OK);
             } catch (RuntimeException r) {
                 return new ResponseEntity<>(r.getLocalizedMessage(), HttpStatus.NOT_FOUND);

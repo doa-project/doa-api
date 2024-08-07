@@ -84,15 +84,16 @@ public class UserController {
         } else {
             try {
                 User user = userService.findUser(id);
+
+                Login login = loginService.findLoginByUserIdAndEmail(id, user.getEmail());
+                login.setEmail(updatedUser.getEmail());
+                login.setPassword(updatedUser.getPassword());
+                loginService.createLogin(login);
+
                 user.setName(updatedUser.getName());
                 user.setEmail(updatedUser.getEmail());
 
-                Login login = loginService.findLoginByUserIdAndEmail(id, updatedUser.getEmail());
-                login.setEmail(updatedUser.getEmail());
-                login.setPassword(updatedUser.getPassword());
-
                 userService.createUser(user);
-                loginService.createLogin(login);
                 return new ResponseEntity<>(user, HttpStatus.OK);
             } catch (RuntimeException r) {
                 return new ResponseEntity<>(r.getLocalizedMessage(), HttpStatus.NOT_FOUND);
