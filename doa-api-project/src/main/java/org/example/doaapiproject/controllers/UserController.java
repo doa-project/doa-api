@@ -53,8 +53,8 @@ public class UserController {
 
             return new ResponseEntity<>(erros, HttpStatus.BAD_REQUEST);
         } else {
-            userService.createUser(new User(user.getName(), user.getEmail()));
-            loginService.createLogin(new Login(user.getEmail(), user.getPassword()));
+            User userCreated = userService.createUser(new User(user.getName(), user.getEmail()));
+            loginService.createLogin(new Login(userCreated.getUserId(), user.getEmail(), user.getPassword()));
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
     }
@@ -71,7 +71,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "The user was not found",
                     content = @Content())
     })
-    public ResponseEntity<?> updateUser(@Parameter(name = "id", description = "Requires the id of the user", required = true) @PathVariable String id, @Valid @RequestBody User updatedUser, BindingResult result) {
+    public ResponseEntity<?> updateUser(@Parameter(name = "id", description = "Requires the id of the user", required = true) @PathVariable String id, @Valid @RequestBody UserRegistrationRequest updatedUser, BindingResult result) {
 
         if (result.hasErrors()) {
             Map<String, String> erros = new HashMap<>();
@@ -86,7 +86,13 @@ public class UserController {
                 User user = userService.findUser(id);
                 user.setName(updatedUser.getName());
                 user.setEmail(updatedUser.getEmail());
+
+                Login login = loginService.findLoginByUserId(id);
+                login.setEmail(updatedUser.getEmail());
+                login.setPassword(updatedUser.getPassword());
+
                 userService.createUser(user);
+                loginService.createLogin(login);
                 return new ResponseEntity<>(user, HttpStatus.OK);
             } catch (RuntimeException r) {
                 return new ResponseEntity<>(r.getLocalizedMessage(), HttpStatus.NOT_FOUND);

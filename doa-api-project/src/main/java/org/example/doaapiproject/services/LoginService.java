@@ -38,6 +38,17 @@ public class LoginService {
             throw new RuntimeException("login not found");
         }
     }
+
+    // find login by userId
+    public Login findLoginByUserId(String id) throws RuntimeException{
+        Login login = loginRepository.findLoginByUserId(Integer.parseInt(id));
+        if (login != null) {
+            return login;
+        } else {
+            throw new RuntimeException("login not found");
+        }
+    }
+
     // delete
     @Transactional
     public Login deleteLogin(String email) {
