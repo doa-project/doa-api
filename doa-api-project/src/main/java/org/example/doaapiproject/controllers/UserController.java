@@ -55,7 +55,7 @@ public class UserController {
         } else {
             User userCreated = userService.createUser(new User(user.getName(), user.getEmail()));
             loginService.createLogin(new Login(userCreated.getUserId(), user.getEmail(), user.getPassword()));
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            return new ResponseEntity<>(userCreated, HttpStatus.OK);
         }
     }
 
