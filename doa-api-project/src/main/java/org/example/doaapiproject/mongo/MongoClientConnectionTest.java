@@ -13,7 +13,7 @@ import org.bson.Document;
 
 public class MongoClientConnectionTest {
     public static void main(String[] args) {
-        String connectionString = "mongodb+srv://doa_user:0GcIgJHwIz3sl7su@dbdoa.jm8dctp.mongodb.net/?retryWrites=true&w=majority&appName=dbdoa";
+        String connectionString = System.getenv("MONGO_URI");
 
         ServerApi serverApi = ServerApi.builder()
                 .version(ServerApiVersion.V1)
@@ -28,7 +28,7 @@ public class MongoClientConnectionTest {
         try (MongoClient mongoClient = MongoClients.create(settings)) {
             try {
                 // Send a ping to confirm a successful connection
-                MongoDatabase database = mongoClient.getDatabase("admin");
+                MongoDatabase database = mongoClient.getDatabase(System.getenv("MONGO_DB"));
                 database.runCommand(new Document("ping", 1));
                 System.out.println("Pinged your deployment. You successfully connected to MongoDB!");
             } catch (MongoException e) {
