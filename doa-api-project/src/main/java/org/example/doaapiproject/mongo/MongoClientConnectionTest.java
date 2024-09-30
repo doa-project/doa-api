@@ -14,7 +14,6 @@ import org.bson.Document;
 public class MongoClientConnectionTest {
     public static void main(String[] args) {
         String connectionString = System.getenv("MONGO_URI");
-
         ServerApi serverApi = ServerApi.builder()
                 .version(ServerApiVersion.V1)
                 .build();
