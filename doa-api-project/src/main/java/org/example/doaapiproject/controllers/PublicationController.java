@@ -47,9 +47,14 @@ public class PublicationController {
 
             return new ResponseEntity<>(erros, HttpStatus.BAD_REQUEST);
         } else {
-            Publication publicationCreated = publicationService.createPublication(new Publication(publication.getInstitutionId(),
-                                                                     publication.getDescription(),
-                                                                     publication.getImages()));
+            Publication publicationCreated;
+            try {
+                publicationCreated = publicationService.createPublication(new Publication(publication.getInstitutionId(),
+                        publication.getDescription(),
+                        publication.getImages()));
+            } catch (RuntimeException r) {
+                return new ResponseEntity<>("Erro ao criar: " + r.getMessage(), HttpStatus.BAD_REQUEST);
+            }
             return new ResponseEntity<>(publicationCreated, HttpStatus.OK);
         }
     }
