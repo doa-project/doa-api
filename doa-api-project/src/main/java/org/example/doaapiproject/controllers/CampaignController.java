@@ -48,7 +48,13 @@ public class CampaignController {
             return new ResponseEntity<>(erros, HttpStatus.BAD_REQUEST);
         } else {
             try {
-                campaignService.createCampaign(campaign);
+                campaignService.createCampaign(new Campaign(campaign.getInstitutionId(),
+                                                            campaign.getInstitutionName(),
+                                                            campaign.getInstitutionPhoto(),
+                                                            campaign.getDescription(),
+                                                            campaign.getImages(),
+                                                            campaign.getEndDate(),
+                                                            campaign.getLocal()));
             } catch (RuntimeException r) {
                 return new ResponseEntity<>(r.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
             }
