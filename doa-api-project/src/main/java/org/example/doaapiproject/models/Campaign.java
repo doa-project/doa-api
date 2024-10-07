@@ -59,10 +59,8 @@ public class Campaign {
         this.local = local;
     }
 
-    public Campaign(String institutionId, String institutionName, String institutionPhoto, String description, List<String> images, String endDate, String local) {
+    public Campaign(String institutionId, String description, List<String> images, String endDate, String local) {
         this.institutionId = institutionId;
-        this.institutionName = institutionName;
-        this.institutionPhoto = institutionPhoto;
         this.description = description;
         this.images = images;
         this.endDate = endDate;

@@ -47,18 +47,12 @@ public class CampaignController {
 
             return new ResponseEntity<>(erros, HttpStatus.BAD_REQUEST);
         } else {
-            try {
-                campaignService.createCampaign(new Campaign(campaign.getInstitutionId(),
-                                                            campaign.getInstitutionName(),
-                                                            campaign.getInstitutionPhoto(),
+            Campaign campaignCreated = campaignService.createCampaign(new Campaign(campaign.getInstitutionId(),
                                                             campaign.getDescription(),
                                                             campaign.getImages(),
                                                             campaign.getEndDate(),
                                                             campaign.getLocal()));
-            } catch (RuntimeException r) {
-                return new ResponseEntity<>(r.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
-            }
-            return new ResponseEntity<>(campaign, HttpStatus.OK);
+            return new ResponseEntity<>(campaignCreated, HttpStatus.OK);
         }
     }
 

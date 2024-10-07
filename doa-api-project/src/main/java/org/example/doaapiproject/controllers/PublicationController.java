@@ -47,16 +47,10 @@ public class PublicationController {
 
             return new ResponseEntity<>(erros, HttpStatus.BAD_REQUEST);
         } else {
-            try {
-                publicationService.createPublication(new Publication(publication.getInstitutionId(),
-                                                                     publication.getInstitutionName(),
-                                                                     publication.getInstitutionPhoto(),
+            Publication publicationCreated = publicationService.createPublication(new Publication(publication.getInstitutionId(),
                                                                      publication.getDescription(),
                                                                      publication.getImages()));
-            } catch (RuntimeException r) {
-                return new ResponseEntity<>(r.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
-            }
-            return new ResponseEntity<>(publication, HttpStatus.OK);
+            return new ResponseEntity<>(publicationCreated, HttpStatus.OK);
         }
     }
 
