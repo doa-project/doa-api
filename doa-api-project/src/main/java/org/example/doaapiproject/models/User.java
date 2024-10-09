@@ -29,20 +29,24 @@ public class User {
     @Size(max = 100, message = "the number of characters in the e-mail must be between 0 and 100")
     @Schema(description = "Represents the e-mail of the user", example = "user.24@gmail.com")
     private String email;
+    @Schema(description = "Represents the photo of the user", example = "https://firebasestorage.googleapis.com/v0/b/doa-app-447b2.appspot.com/o/doaUser.png?alt=media&token=c17080a3-7af1-4bba-931b-6efa18cf9e44")
+    private String userPhoto;
 
     // construtores
     public User(){}
 
-    public User(String id, Integer userId, String name, String email) {
+    public User(String id, Integer userId, String name, String email, String userPhoto) {
         this.id = id;
         this.userId = userId;
         this.name = name;
         this.email = email;
+        this.userPhoto = userPhoto;
     }
 
-    public User(String name, String email) {
+    public User(String name, String email, String userPhoto) {
         this.name = name;
         this.email = email;
+        this.userPhoto = userPhoto;
     }
 
     // getters e setters
@@ -78,6 +82,12 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+    public String getUserPhoto() {
+        return userPhoto;
+    }
+    public void setUserPhoto(String userPhoto) {
+        this.userPhoto = userPhoto;
+    }
 
     // toString
     public String toString() {
@@ -85,6 +95,7 @@ public class User {
                 "\n ,userId=" + this.userId +
                 "\n ,name='" + this.name +
                 "'\n ,email='" + this.email +
+                "'\n ,userPhoto='" + this.userPhoto +
                 "'\n}";
     }
 }

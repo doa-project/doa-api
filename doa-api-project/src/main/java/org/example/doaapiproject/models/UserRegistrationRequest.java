@@ -20,6 +20,8 @@ public class UserRegistrationRequest {
             message = "password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character")
     @Schema(description = "Represents the password of the login", example = "T3r&vQ6z@")
     private String password;
+    @Schema(description = "Represents the photo of the user", example = "https://firebasestorage.googleapis.com/v0/b/doa-app-447b2.appspot.com/o/doaUser.png?alt=media&token=c17080a3-7af1-4bba-931b-6efa18cf9e44")
+    private String userPhoto;
 
     // getters e setters
 
@@ -45,5 +47,11 @@ public class UserRegistrationRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    public String getUserPhoto() {
+        return userPhoto;
+    }
+    public void setUserPhoto(String userPhoto) {
+        this.userPhoto = userPhoto;
     }
 }

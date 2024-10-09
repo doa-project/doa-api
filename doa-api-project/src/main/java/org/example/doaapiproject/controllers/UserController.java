@@ -53,7 +53,7 @@ public class UserController {
 
             return new ResponseEntity<>(erros, HttpStatus.BAD_REQUEST);
         } else {
-            User userCreated = userService.createUser(new User(user.getName(), user.getEmail()));
+            User userCreated = userService.createUser(new User(user.getName(), user.getEmail(), user.getUserPhoto()));
             loginService.createLogin(new Login(userCreated.getUserId(), user.getEmail(), user.getPassword()));
             return new ResponseEntity<>(userCreated, HttpStatus.OK);
         }
@@ -92,6 +92,7 @@ public class UserController {
 
                 user.setName(updatedUser.getName());
                 user.setEmail(updatedUser.getEmail());
+                user.setUserPhoto(updatedUser.getUserPhoto());
 
                 userService.createUser(user);
                 return new ResponseEntity<>(user, HttpStatus.OK);
